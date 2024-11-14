@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Silent SSO Check</title>
+  <script src="https://cdn.jsdelivr.net/npm/keycloak-js@20.x.x/dist/keycloak.min.js"></script>
+  <script>
+    var keycloak = new Keycloak({
+      url: 'http://localhost:8181',
+      realm: 'shop-microservice-realm',
+      clientId: 'react-client',
+    });
+
+    keycloak.init({
+      onLoad: 'check-sso', // Check SSO status (silent authentication)
+      silentCheckSsoRedirectUri: window.location.href, // Redirect URL after silent check (must match in Keycloak)
+    }).then(function(authenticated) {
+      if (authenticated) {
+        console.log("User is authenticated via silent SSO");
+        window.location.reload(); // Reload the main app if authenticated
+      } else {
+        console.log("User is not authenticated via silent SSO");
+      }
+    }).catch(function(error) {
+      console.error("Silent check failed", error);
+    });
+  </script>
+</head>
+<body>
+</body>
+</html>

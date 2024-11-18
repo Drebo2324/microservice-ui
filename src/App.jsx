@@ -1,6 +1,7 @@
 import './index.css'
 import React, { useEffect, useState } from 'react';
 import keycloakService from './keycloakService';
+import Header from './Header';
 
 const App = () => {
     const [authenticated, setAuthenticated] = useState(false);
@@ -18,7 +19,7 @@ const App = () => {
     }, []);
 
     if (!authenticated) {
-        return <div>Loading...</div>;
+        return <div><Header /></div>;
     }
 
     return <div>Authenticated</div>;

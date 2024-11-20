@@ -3,7 +3,10 @@ import keycloakService from './keycloakService';
 
 // Create Axios instance
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8080/api', // Your API base URL
+    baseURL: 'http://localhost:9000/api', // Your API base URL
+    headers: {
+        'Content-Type': 'application/json', // Default header for JSON requests
+    },
 });
 
 // Request interceptor to add token to Authorization header

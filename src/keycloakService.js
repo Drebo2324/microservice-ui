@@ -47,12 +47,12 @@ class KeycloakService {
 
     // Returns true if the user is authenticated
     isAuthenticated() {
-        return this.keycloak?.authenticated;
+        return this.keycloak?.authenticated || false;
     }
 
     // Get the access token
     getToken() {
-        return this.keycloak?.token;
+        return this.keycloak?.token || null;
     }
 
     // Logout user
@@ -65,6 +65,21 @@ class KeycloakService {
         this.keycloak?.login();
     }
 
+    async refreshToken() {
+        try {
+            const refreshed = await this.keycloak.updateToken(30);
+            if (refreshed) {
+                console.log('Token refreshed');
+            } else {
+                console.log('Token still valid');
+            }
+            return this.keycloak.token;
+        } catch (err) {
+            console.error('Failed to refresh token', err);
+            throw err;
+        }
+
+    }
 }
 
 export default new KeycloakService();

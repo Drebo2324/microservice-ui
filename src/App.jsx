@@ -1,29 +1,22 @@
-import './index.css'
-import React, { useEffect, useState } from 'react';
-import keycloakService from './keycloakService';
-import Header from './Header';
+import React, { useEffect } from 'react';
+import KeycloakService from './keycloakService'; // Import the KeycloakService for initialization
+import Header from './Header'; // Import the Header component
 
 const App = () => {
-    const [authenticated, setAuthenticated] = useState(false);
+  useEffect(() => {
+    // Initialize Keycloak on app load
+    KeycloakService.initKeycloak();
+  }, []);
 
-    useEffect(() => {
-        // Initialize Keycloak on component mount
-        keycloakService.initKeycloak();
-
-        // Listen for Keycloak authentication status
-        const interval = setInterval(() => {
-            setAuthenticated(keycloakService.isAuthenticated());
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    if (!authenticated) {
-        return <div><Header /></div>;
-    }
-
-    return <div>Authenticated</div>;
+  return (
+    <div>
+      <Header /> {/* Include the Header component */}
+      <div>
+        <h2>Welcome to the Application!</h2>
+        {/* Other components and content for your app */}
+      </div>
+    </div>
+  );
 };
 
 export default App;
-

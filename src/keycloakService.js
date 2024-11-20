@@ -65,22 +65,6 @@ class KeycloakService {
         this.keycloak?.login();
     }
 
-    // Refresh the Keycloak token if necessary
-    refreshToken() {
-        if (this.keycloak?.token && this.keycloak.tokenParsed) {
-            const expiresAt = this.keycloak.tokenParsed.exp * 1000; // expiration time in ms
-            const now = new Date().getTime();
-            if (expiresAt - now < 30000) { // Refresh if token expires in less than 30 seconds
-                this.keycloak?.updateToken(30).then((refreshed) => {
-                    if (refreshed) {
-                        console.log('Token refreshed');
-                    }
-                }).catch(() => {
-                    console.log('Failed to refresh token');
-                });
-            }
-        }
-    }
 }
 
 export default new KeycloakService();

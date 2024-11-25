@@ -34,8 +34,8 @@ class KeycloakService {
             .then((authenticated) => {
                 if (authenticated) {
                     console.log('Keycloak authenticated');
-                    // Automatically refresh the token every 30 seconds
-                    setInterval(() => this.refreshToken(), 30000);
+                    // Automatically refresh the token every 60 seconds
+                    setInterval(() => this.refreshToken(), 60000);
                 } else {
                     console.error('Keycloak authentication failed');
                 }
@@ -67,7 +67,7 @@ class KeycloakService {
 
     async refreshToken() {
         try {
-            const refreshed = await this.keycloak.updateToken(30);
+            const refreshed = await this.keycloak.updateToken(60);
             if (refreshed) {
                 console.log('Token refreshed');
             } else {

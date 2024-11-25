@@ -1,18 +1,12 @@
 import apiClient from "./apiService";
 
-// Product model
-export const productModel = {
-    id: null,
-    name: '',
-    description: '',
-    price: 0,
-};
 
 class ProductService {
     // Fetch all products
     async getAllProducts() {
         try {
             const response = await apiClient.get('/product');
+            console.log('response data: ' + response.data)
             return response.data;
         } catch (error) {
             console.error('Error fetching products:', error);

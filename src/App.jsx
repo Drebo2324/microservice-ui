@@ -1,19 +1,18 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import KeycloakService from './keycloakService'; // Import the KeycloakService for initialization
 import Header from './Header'; // Import the Header component
+import HomePage from './HomePage';
 
 const App = () => {
   useEffect(() => {
-    // Initialize Keycloak on app load
     KeycloakService.initKeycloak();
   }, []);
 
   return (
     <div>
-      <Header /> {/* Include the Header component */}
+      <Header />
       <div>
-        <h2>Welcome to the Application!</h2>
-        {/* Other components and content for your app */}
+        Hello World
       </div>
     </div>
   );

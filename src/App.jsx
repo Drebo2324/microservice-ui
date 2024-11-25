@@ -12,7 +12,7 @@ const App = () => {
     <div>
       <Header />
       <div>
-        Hello World
+        <HomePage />
       </div>
     </div>
   );

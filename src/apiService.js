@@ -14,6 +14,7 @@ apiClient.interceptors.request.use(
     async (config) => {
         console.log('keycloak isAuthenticated(): ', keycloakService.isAuthenticated())
 
+        //wait until keycloak init to add header
         if (!keycloakService.isAuthenticated()) {
             console.log('keycloak not authenticated. Waiting initialization...');
             await new Promise((resolve) => setTimeout(resolve, 1000));

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import KeycloakService from './keycloakService'; // Import the KeycloakService for initialization
-import Header from './Header'; // Import the Header component
+import KeycloakService from './keycloakService';
+import Header from './Header';
 import HomePage from './HomePage';
 
 const App = () => {

@@ -14,7 +14,7 @@ class KeycloakService {
 
         this.keycloak = new Keycloak({
             url: 'http://localhost:8181', // Keycloak URL
-            realm: 'shop-microservice-realm', // Realm name
+            realm: 'shop-microservice', // Realm name
             clientId: 'react-client', // Client ID
         });
 

@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import KeycloakService from './keycloakService'; // Assuming KeycloakService handles authentication
+import { useState, useEffect } from 'react';
+import KeycloakService from './keycloakService';
+import AddProduct from './AddProduct';
 
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
+  const [showAddProduct, setShowAddProduct] = useState(false);
 
   // Fetch authentication state and user data on initial load
   useEffect(() => {
-    const keycloak = KeycloakService.keycloak; // Use the keycloak instance
+    const keycloak = KeycloakService.keycloak;
 
     if (keycloak) {
       // Initialize the authentication status
@@ -59,14 +61,31 @@ const Header = () => {
     }
   };
 
+  const viewAddProduct = () => {
+    setShowAddProduct((prev) => !prev);
+  }
+
   return (
     <div>
       <h1>Welcome{isAuthenticated ? `, ${username}` : ''}</h1>
+      <nav>
+        <ul>
+          {isAuthenticated && (
+            <li>
+              <button onClick={viewAddProduct}>
+                {showAddProduct ? 'Return' : 'Add Product'}
+              </button>
+            </li>
+          )}
+        </ul>
+      </nav>
       {isAuthenticated ? (
         <button onClick={logout}>Logout</button>
       ) : (
         <button onClick={login}>Login</button>
       )}
+      
+      {showAddProduct && <AddProduct />}
     </div>
   );
 };

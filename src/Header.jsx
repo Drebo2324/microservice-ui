@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import KeycloakService from './keycloakService';
 import AddProduct from './AddProduct';
+import DeleteProduct from './DeleteProduct';
 
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [showDeleteProduct, setShowDeleteProduct] = useState(false);
 
   // Fetch authentication state and user data on initial load
   useEffect(() => {
@@ -61,8 +63,11 @@ const Header = () => {
     }
   };
 
-  const viewAddProduct = () => {
+  const toggleAddProduct = () => {
     setShowAddProduct((prev) => !prev);
+  }
+  const toggleDeleteProduct = () => {
+    setShowDeleteProduct((prev) => !prev);
   }
 
   return (
@@ -72,8 +77,11 @@ const Header = () => {
         <ul>
           {isAuthenticated && (
             <li>
-              <button onClick={viewAddProduct}>
+              <button onClick={toggleAddProduct}>
                 {showAddProduct ? 'Return' : 'Add Product'}
+              </button>
+              <button onClick={toggleDeleteProduct}>
+                {showDeleteProduct ? 'Return' : 'Delete Product'}
               </button>
             </li>
           )}
@@ -86,6 +94,8 @@ const Header = () => {
       )}
       
       {showAddProduct && <AddProduct />}
+
+      {showDeleteProduct && <DeleteProduct />}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import productService from './productService';
 
 function AddProduct() {
   const [formData, setFormData] = useState({
@@ -18,7 +19,7 @@ function AddProduct() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form (simple check for empty fields)
@@ -27,9 +28,14 @@ function AddProduct() {
       return;
     }
 
-    // Simulate product creation
-    console.log('Product created:', formData);
-    setProductCreated(true);
+    try {
+      await productService.createProduct(formData)
+      console.log('Product created:', formData);
+      setProductCreated(true);
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+    
 
     // Reset form
     setFormData({

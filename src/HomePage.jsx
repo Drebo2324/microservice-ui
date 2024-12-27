@@ -40,8 +40,8 @@ const HomePage = () => {
         }
         
         const userDetails = new UserDetails (
-            keycloakService.keycloak.profile,
-        )
+            keycloakService.getUserEmail()
+        );
 
         const orderDto = new OrderDto(
             Math.random(),
@@ -68,13 +68,13 @@ const HomePage = () => {
         const [quantity, setQuantity] = useState(1);
 
         return (
-            <li>
+            <li className='bg-gray-100 rounded-lg shadow-md p-4'>
                 <div>
-                    <h3>{product.name}</h3>
-                    <p>{product.description}</p>
-                    <p>Price: ${product.price}</p>
-                    <div>
-                        <label>
+                    <h3 className='text-xl font-bold mb-2'>{product.name}</h3>
+                    <p className='text-gray-700 mb-2'>{product.description}</p>
+                    <p className='text-gray-500 font-bold mb-2'>Price: ${product.price}</p>
+                    <div className='flex items-center mr-2'>
+                        <label className='text-gray-700 mr-2'>
                             Quantity: 
                             <input 
                                 type='number' 
@@ -86,7 +86,7 @@ const HomePage = () => {
                         </label>
                     </div>
                 </ div>
-                <button
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-offset-2 focus:ring-blue-700'
                     onClick={() => 
                     orderProduct(product, quantity)}>
                         Order
@@ -101,8 +101,8 @@ const HomePage = () => {
 
     return (
         <div>
-            <h1>Product List</h1>
-            {orderStatus && <p>{orderStatus}</p>}
+            <h1 className="text-3xl font-bold">Product List</h1>
+            {orderStatus && <p className='text-2xl font-bold text-center'>{orderStatus}</p>}
             <div>
                 {products.length === 0 ? (
                     <p>No products available.</p>

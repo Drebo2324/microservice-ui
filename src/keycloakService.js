@@ -65,6 +65,10 @@ class KeycloakService {
         this.keycloak?.login();
     }
 
+    getUserEmail() {
+        return this.keycloak?.tokenParsed?.email;
+    }
+
     async refreshToken() {
         try {
             const refreshed = await this.keycloak.updateToken(60);
@@ -76,7 +80,7 @@ class KeycloakService {
             return this.keycloak.token;
         } catch (err) {
             console.error('Failed to refresh token', err);
-            throw err;
+            this.login();
         }
 
     }

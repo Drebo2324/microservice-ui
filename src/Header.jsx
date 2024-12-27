@@ -72,30 +72,41 @@ const Header = () => {
 
   return (
     <div>
-      <h1>Welcome{isAuthenticated ? `, ${username}` : ''}</h1>
-      <nav>
-        <ul>
-          {isAuthenticated && (
-            <li>
-              <button onClick={toggleAddProduct}>
-                {showAddProduct ? 'Return' : 'Add Product'}
-              </button>
-              <button onClick={toggleDeleteProduct}>
-                {showDeleteProduct ? 'Return' : 'Delete Product'}
-              </button>
-            </li>
-          )}
-        </ul>
-      </nav>
-      {isAuthenticated ? (
-        <button onClick={logout}>Logout</button>
-      ) : (
-        <button onClick={login}>Login</button>
-      )}
-      
-      {showAddProduct && <AddProduct />}
+      <header className='bg-white p-4 shadow-md flex justify-between items-center'>
+        <h1 className='text-2xl font-bold'>Welcome{isAuthenticated ? `, ${username}` : ''}</h1>
+        <nav>
+          <ul className='flex space-x-4'>
+            {isAuthenticated && (
+              <>
+              <li>
+                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                onClick={toggleAddProduct}>
+                  {showAddProduct ? 'Return' : 'Add Product'}
+                </button>
+              </li>
+              <li>
+                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
 
-      {showDeleteProduct && <DeleteProduct />}
+                onClick={toggleDeleteProduct}>
+                  {showDeleteProduct ? 'Return' : 'Delete Product'}
+                </button>
+              </li>
+              </>
+            )}
+          </ul>
+        </nav>
+        {isAuthenticated ? (
+          <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          onClick={logout}>Logout</button>
+        ) : (
+          <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          onClick={login}>Login</button>
+        )}
+      </header>
+      <main className='container mx-auto p-4'>    
+        {showAddProduct && <AddProduct />}
+        {showDeleteProduct && <DeleteProduct />}
+      </main>
     </div>
   );
 };

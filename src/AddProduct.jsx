@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import productService from './productService';
 
 function AddProduct() {
@@ -47,14 +47,14 @@ function AddProduct() {
   };
 
   return (
-    <div>
-      <h2>Add Product</h2>
+    <div className='container mx-auto p-4 bg-gray-100'>
+      <h2 className="text-2xl font-bold mb-4">Add Product</h2>
 
-      {productCreated && <p>Product Created Successfully!</p>}
+      {productCreated && <p className="text-green-500 text-center">Product Created Successfully!</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Product ID:</label>
+      <form className="flex flex-col" onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="text-gray-700 mb-2 block">Product ID:</label>
           <input
             type="text"
             name="id"
@@ -62,8 +62,8 @@ function AddProduct() {
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label>Product Name:</label>
+        <div className='mb-4'>
+          <label className="text-gray-700 mb-2 block">Product Name:</label>
           <input
             type="text"
             name="name"
@@ -72,7 +72,7 @@ function AddProduct() {
           />
         </div>
         <div>
-          <label>Product Description:</label>
+          <label className="text-gray-700 mb-2 block">Product Description:</label>
           <textarea
             name="description"
             value={formData.description}
@@ -80,7 +80,7 @@ function AddProduct() {
           ></textarea>
         </div>
         <div>
-          <label>Product Price:</label>
+          <label className="text-gray-700 mb-2 block">Product Price:</label>
           <input
             type="text"
             name="price"
@@ -88,7 +88,10 @@ function AddProduct() {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Add Product</button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+        type="submit">
+          Add Product
+        </button>
       </form>
     </div>
   );

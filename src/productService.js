@@ -28,7 +28,8 @@ class ProductService {
     // Delete a product by ID
     async deleteProduct(id) {
         try {
-            await apiClient.delete('/product', id);
+            await apiClient.delete(`/product/${id}`);
+            console.log(`Product with ID ${id} deleted successfully.`);
         } catch (error) {
             console.error('Error deleting product:', error);
             throw error;

@@ -3,7 +3,7 @@ import KeycloakService from './keycloakService';
 import AddProduct from './AddProduct';
 import DeleteProduct from './DeleteProduct';
 
-const Header = () => {
+const Header = ({updateProductList}) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [showAddProduct, setShowAddProduct] = useState(false);
@@ -18,35 +18,41 @@ const Header = () => {
       const checkAuthStatus = () => {
         setIsAuthenticated(keycloak.authenticated);
         setUsername(keycloak.tokenParsed?.preferred_username || '');
+        console.log('Keycloak authenticated:', keycloak.authenticated)
       };
+
+      checkAuthStatus();
 
       // Monitor token changes or state changes
       keycloak.onTokenExpired = () => {
+        console.log('Token expired')
         checkAuthStatus();
       };
 
       keycloak.onAuthSuccess = () => {
+        console.log('Authentication success')
         checkAuthStatus();
       };
 
       keycloak.onAuthLogout = () => {
+        console.log('Logged out')
         setIsAuthenticated(false);
         setUsername('');
+      };
+
+      return () => {
+        // Clean up Keycloak event listeners
+        const keycloak = KeycloakService.keycloak;
+        if (keycloak) {
+          keycloak.onTokenExpired = null;
+          keycloak.onAuthSuccess = null;
+          keycloak.onAuthLogout = null;
+        }
       };
 
     } else {
       console.error('Keycloak not initialized');
     }
-
-    return () => {
-      // Clean up Keycloak event listeners
-      const keycloak = KeycloakService.keycloak;
-      if (keycloak) {
-        keycloak.onTokenExpired = null;
-        keycloak.onAuthSuccess = null;
-        keycloak.onAuthLogout = null;
-      }
-    };
   }, []);
 
   const login = () => {
@@ -104,8 +110,8 @@ const Header = () => {
         )}
       </header>
       <main className='container mx-auto p-4'>    
-        {showAddProduct && <AddProduct />}
-        {showDeleteProduct && <DeleteProduct />}
+        {showAddProduct && <AddProduct updateProductList={updateProductList} />}
+        {showDeleteProduct && <DeleteProduct updateProductList={updateProductList} />}
       </main>
     </div>
   );

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import productService from './productService';
 
-function AddProduct() {
+function AddProduct({updateProductList}) {
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -9,7 +9,7 @@ function AddProduct() {
     price: '',
   });
 
-  const [productCreated, setProductCreated] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +21,7 @@ function AddProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
 
     // Validate form (simple check for empty fields)
     if (!formData.id || !formData.name || !formData.description || !formData.price) {
@@ -29,11 +30,15 @@ function AddProduct() {
     }
 
     try {
-      await productService.createProduct(formData)
+      await productService.createProduct(formData);
       console.log('Product created:', formData);
-      setProductCreated(true);
+      setMessage(`Product with ID:"${formData.id}" was created.`)
+      updateProductList();
     } catch (error) {
-      console.error('Error deleting product:', error);
+      console.error('Error creating product:', error);
+      setMessage(
+        error.response?.data?.message || 'Failed to create the product.'
+      )
     }
     
 
@@ -50,7 +55,7 @@ function AddProduct() {
     <div className='container mx-auto p-4 bg-gray-100'>
       <h2 className="text-2xl font-bold mb-4">Add Product</h2>
 
-      {productCreated && <p className="text-green-500 text-center">Product Created Successfully!</p>}
+      {message && <p className="text-green-500 text-center">{message}</p>}
 
       <form className="flex flex-col" onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -79,7 +84,7 @@ function AddProduct() {
             onChange={handleChange}
           ></textarea>
         </div>
-        <div>
+        <div className='mb-4'>
           <label className="text-gray-700 mb-2 block">Product Price:</label>
           <input
             type="text"

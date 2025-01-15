@@ -13,7 +13,8 @@ class KeycloakService {
         }
 
         this.keycloak = new Keycloak({
-            url: 'http://localhost:8181', // Keycloak URL
+            url: 'http://keycloak.default.svc.cluster.local:8080', // keycloak service running in k8
+            //url: 'http://localhost:8181', //keycloak service running local
             realm: 'shop-microservice', // Realm name
             clientId: 'react-client', // Client ID
         });

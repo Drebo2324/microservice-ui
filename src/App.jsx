@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import KeycloakService from './keycloakService';
-import Header from './Header';
 import HomePage from './HomePage';
 
 const App = () => {
@@ -10,10 +9,7 @@ const App = () => {
 
   return (
     <div>
-      <Header />
-      <div>
-        <HomePage />
-      </div>
+      <HomePage />
     </div>
   );
 };

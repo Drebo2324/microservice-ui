@@ -3,6 +3,7 @@ import ProductService from './productService';
 import orderService from './orderService';
 import keycloakService from './keycloakService';
 import { OrderDto, UserDetails } from './models';
+import Header from './Header';
 
 const HomePage = () => {
     const [products, setProducts] = useState([]);
@@ -26,6 +27,18 @@ const HomePage = () => {
         };
         fetchProducts();
     }, []);
+
+    const updateProductList = async () => {
+        try {
+            setLoading(true);
+            const fetchedProducts = await ProductService.getAllProducts();
+            setProducts(fetchedProducts.productListDto || []);
+        } catch (error) {
+            console.error('Failed to load products:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const orderProduct = async (product, quantity) => {
 
@@ -55,8 +68,8 @@ const HomePage = () => {
 
         try {
             const response = await orderService.placeOrder(orderDto);
+            console.log("order response", response)
             setOrderStatus(`Order placed successfully for ${product.name}`);
-            console.log('Order response: ', response);
         } catch (error) {
             setOrderStatus(`Failed to place order: ${error.message}`)
             console.log('Order error: ', error)
@@ -101,18 +114,23 @@ const HomePage = () => {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold">Product List</h1>
-            {orderStatus && <p className='text-2xl font-bold text-center'>{orderStatus}</p>}
             <div>
-                {products.length === 0 ? (
-                    <p>No products available.</p>
-                ) : (
-                    <ul>
-                        {products.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </ul>
-                )}
+            <Header updateProductList={updateProductList} />
+            </div>
+            <div>
+                <h1 className="text-3xl font-bold">Product List</h1>
+                {orderStatus && <p className='text-2xl font-bold text-center'>{orderStatus}</p>}
+                <div>
+                    {products.length === 0 ? (
+                        <p>No products available.</p>
+                    ) : (
+                        <ul>
+                            {products.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        </ul>
+                    )}
+                </div>
             </div>
         </div>
     );
